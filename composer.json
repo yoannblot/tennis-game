@@ -1,16 +1,22 @@
 {
     "name": "yoannblot/tennis-game",
     "type": "project",
-    "require": {
-        "php": ">=8.5",
-        "symfony/console": "^8.1.4"
-    },
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "TennisGame\\": "src/"
+            "TennisGame\\": "src/",
+            "Tests\\": "tests/"
         }
     },
+    "require": {
+        "php": ">=8.5",
+        "symfony/config": "^8.1.4",
+        "symfony/console": "^8.1.4",
+        "symfony/dependency-injection": "^8.1.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^13.3.1"
+    },
+    "prefer-stable": true,
     "config": {
         "sort-packages": true
     }
