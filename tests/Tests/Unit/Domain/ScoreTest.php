@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Domain;
 
+use App\Domain\Score;
 use PHPUnit\Framework\TestCase;
-use TennisGame\Domain\Score;
 
 final class ScoreTest extends TestCase
 {

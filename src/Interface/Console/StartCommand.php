@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Interface\Console;
+namespace App\Interface\Console;
 
+use App\Domain\Score;
+use App\Interface\CourtDisplay;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use TennisGame\Domain\Score;
-use TennisGame\Interface\CourtDisplay;
 
-#[AsCommand(
-    name: 'tennis-game:start',
-    description: 'Start the tennis game'
-)]
+#[AsCommand(name: 'tennis-game:start', description: 'Start the tennis game')]
 final readonly class StartCommand
 {
-    public function __construct(private CourtDisplay $courtDisplay) {}
+    public function __construct(
+        private CourtDisplay $courtDisplay,
+    ) {}
 
     public function __invoke(): int
     {

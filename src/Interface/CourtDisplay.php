@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Interface;
+namespace App\Interface;
 
-use TennisGame\Domain\Score;
+use App\Domain\Score;
 
 interface CourtDisplay
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Infrastructure\System;
+namespace App\Infrastructure\System;
 
-use TennisGame\Interface\Sleeper;
+use App\Interface\Sleeper;
 
 final readonly class UsleepSleeper implements Sleeper
 {

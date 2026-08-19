@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Infrastructure\Console;
+namespace App\Infrastructure\Console;
 
+use App\Domain\Score;
+use App\Interface\CourtDisplay;
+use App\Interface\Sleeper;
 use Symfony\Component\Console\Output\OutputInterface;
-use TennisGame\Domain\Score;
-use TennisGame\Interface\CourtDisplay;
-use TennisGame\Interface\Sleeper;
 
 final readonly class ConsoleCourtDisplay implements CourtDisplay
 {

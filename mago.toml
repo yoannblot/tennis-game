@@ -1,0 +1,40 @@
+php-version = "8.5"
+
+[source]
+workspace = "."
+paths = ["src"]
+includes = ["vendor"]
+
+[formatter]
+preset = "default"
+preserve-breaking-binary-expression = true
+
+[guard]
+mode = "perimeter"
+
+[guard.perimeter]
+layering = [
+    "App\\Domain",
+    "App\\Application",
+    "App\\Interface",
+    "App\\Infrastructure",
+]
+
+[guard.perimeter.layers]
+core = [
+    "@native",
+]
+
+[[guard.perimeter.rules]]
+namespace = "App\\Interface"
+permit = [
+    "@layer:core",
+    "Symfony\\Component\\Console\\**"
+]
+
+[[guard.perimeter.rules]]
+namespace = "App\\Infrastructure"
+permit = [
+    "@layer:core",
+    "Symfony\\**",
+]

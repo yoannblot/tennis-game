@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Domain;
+namespace App\Domain;
 
 final class Score
 {
@@ -11,7 +11,10 @@ final class Score
         return new self(0, 0);
     }
 
-    private function __construct(public int $player1, public int $player2) {}
+    private function __construct(
+        public int $player1,
+        public int $player2,
+    ) {}
 
     public function next(): void
     {
@@ -22,5 +25,4 @@ final class Score
     {
         return $this->player1 <= 10;
     }
-
 }

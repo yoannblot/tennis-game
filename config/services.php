@@ -3,11 +3,11 @@
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use TennisGame\Infrastructure\Console\ConsoleCourtDisplay;
-use TennisGame\Infrastructure\System\UsleepSleeper;
-use TennisGame\Interface\Console\StartCommand;
-use TennisGame\Interface\CourtDisplay;
-use TennisGame\Interface\Sleeper;
+use App\Infrastructure\Console\ConsoleCourtDisplay;
+use App\Infrastructure\System\UsleepSleeper;
+use App\Interface\Console\StartCommand;
+use App\Interface\CourtDisplay;
+use App\Interface\Sleeper;
 
 return function (ContainerConfigurator $container): void {
     $services = $container->services()

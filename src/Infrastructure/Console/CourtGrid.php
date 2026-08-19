@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Infrastructure\Console;
+namespace App\Infrastructure\Console;
 
 final readonly class CourtGrid
 {
@@ -20,12 +20,12 @@ final readonly class CourtGrid
 
     private function isBorderRow(int $row): bool
     {
-        return 0 === $row || self::HEIGHT - 1 === $row;
+        return 0 === $row || (self::HEIGHT - 1) === $row;
     }
 
     private function isSeparationRow(int $row): bool
     {
-        return $row === intdiv(self::HEIGHT, 2);
+        return $row === intdiv(self::HEIGHT, num2: 2);
     }
 
     private function border(): string
@@ -36,7 +36,7 @@ final readonly class CourtGrid
     private function netRow(): string
     {
         $row = '|' . str_repeat(' ', self::WIDTH - 2) . '|';
-        $row[intdiv(self::WIDTH, 2)] = '#';
+        $row[intdiv(self::WIDTH, num2: 2)] = '#';
 
         return $row;
     }

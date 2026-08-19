@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Infrastructure\Console;
+namespace App\Infrastructure\Console;
 
 final readonly class PlayerFigures
 {
@@ -16,9 +16,9 @@ final readonly class PlayerFigures
      */
     public function forRow(int $row): array
     {
-        $topRow = intdiv(CourtGrid::HEIGHT - count(self::LEFT), 2);
+        $topRow = intdiv(CourtGrid::HEIGHT - count(self::LEFT), num2: 2);
 
-        if ($row < $topRow || $row >= $topRow + count(self::LEFT)) {
+        if ($row < $topRow || $row >= ($topRow + count(self::LEFT))) {
             return [str_repeat(' ', self::SIDE_WIDTH), str_repeat(' ', self::SIDE_WIDTH)];
         }
 

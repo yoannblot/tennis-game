@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Infrastructure\Console;
+namespace App\Infrastructure\Console;
 
-use TennisGame\Domain\Score;
+use App\Domain\Score;
 
 final readonly class CourtRenderer
 {

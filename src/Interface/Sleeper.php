@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Interface;
+namespace App\Interface;
 
 interface Sleeper
 {

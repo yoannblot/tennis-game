@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Infrastructure\Console;
+namespace App\Infrastructure\Console;
 
 final readonly class Scoreboard
 {
     public function render(int $leftScore, int $rightScore, int $width, int $margin): string
     {
-        return str_repeat(' ', $margin) . $this->centerLabel(sprintf('[ %d - %d ]', $leftScore, $rightScore), $width);
+        return (
+            str_repeat(' ', max(0, $margin))
+                . $this->centerLabel(sprintf('[ %d - %d ]', $leftScore, $rightScore), $width)
+        );
     }
 
     private function centerLabel(string $label, int $width): string
@@ -17,6 +20,6 @@ final readonly class Scoreboard
         $left = (int) ceil($padding / 2);
         $right = $padding - $left;
 
-        return str_repeat(' ', $left) . $label . str_repeat(' ', $right);
+        return str_repeat(' ', max(0, $left)) . $label . str_repeat(' ', max(0, $right));
     }
 }
