@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace TennisGame\Interface;
+namespace TennisGame\Interface\Console;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
+use TennisGame\Domain\Score;
 
 #[AsCommand(
     name: 'tennis-game:start',
@@ -21,14 +22,25 @@ final readonly class StartCommand
 
     public function __invoke(OutputInterface $output): int
     {
-        $output->writeln($this->buildCourt(0, 0));
+        $score = Score::start();
+        do {
+            $this->clearScreen($output);
+            $output->writeln($this->buildCourt($score));
+            sleep(1);
+            $score->next();
+        } while ($score->isOngoing());
 
         return Command::SUCCESS;
     }
 
-    private function buildCourt(int $leftScore, int $rightScore): string
+    private function clearScreen(OutputInterface $output): void
     {
-        $lines = [$this->buildScoreboardLine($leftScore, $rightScore)];
+        $output->write("\x1b[H\x1b[2J\x1b[3J");
+    }
+
+    private function buildCourt(Score $score): string
+    {
+        $lines = [$this->buildScoreboardLine($score->player1, $score->player2)];
 
         for ($row = 0; $row < self::HEIGHT; ++$row) {
             $lines[] = $this->buildRow($row);
@@ -42,7 +54,7 @@ final readonly class StartCommand
         $court = $this->buildCourtSegment($row);
         [$left, $right] = $this->buildPlayerFigures($row);
 
-        return $left.str_repeat(' ', self::GAP).$court.str_repeat(' ', self::GAP).$right;
+        return $left . str_repeat(' ', self::GAP) . $court . str_repeat(' ', self::GAP) . $right;
     }
 
     private function buildCourtSegment(int $row): string
@@ -66,12 +78,12 @@ final readonly class StartCommand
 
     private function buildBorder(): string
     {
-        return '+'.str_repeat('-', self::WIDTH - 2).'+';
+        return '+' . str_repeat('-', self::WIDTH - 2) . '+';
     }
 
     private function buildNetRow(): string
     {
-        $row = '|'.str_repeat(' ', self::WIDTH - 2).'|';
+        $row = '|' . str_repeat(' ', self::WIDTH - 2) . '|';
         $row[intdiv(self::WIDTH, 2)] = '#';
 
         return $row;
@@ -99,7 +111,7 @@ final readonly class StartCommand
     {
         $margin = str_repeat(' ', self::SIDE_WIDTH + self::GAP);
 
-        return $margin.$this->centerLabel(sprintf('[ %d - %d ]', $leftScore, $rightScore));
+        return $margin . $this->centerLabel(sprintf('[ %d - %d ]', $leftScore, $rightScore));
     }
 
     private function centerLabel(string $label): string
@@ -108,6 +120,6 @@ final readonly class StartCommand
         $left = (int) ceil($padding / 2);
         $right = $padding - $left;
 
-        return str_repeat(' ', $left).$label.str_repeat(' ', $right);
+        return str_repeat(' ', $left) . $label . str_repeat(' ', $right);
     }
 }
