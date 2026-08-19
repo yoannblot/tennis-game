@@ -6,11 +6,11 @@ namespace App\Infrastructure\Console;
 
 final readonly class Scoreboard
 {
-    public function render(int $leftScore, int $rightScore, int $width, int $margin): string
+    public function render(string $label, int $width, int $margin): string
     {
         return (
             str_repeat(' ', max(0, $margin))
-                . $this->centerLabel(sprintf('[ %d - %d ]', $leftScore, $rightScore), $width)
+                . $this->centerLabel(sprintf('[ %s ]', $label), $width)
         );
     }
 

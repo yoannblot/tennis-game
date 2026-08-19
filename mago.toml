@@ -26,6 +26,12 @@ core = [
 ]
 
 [[guard.perimeter.rules]]
+namespace = "App\\Domain"
+permit = [
+    "@layer:core",
+]
+
+[[guard.perimeter.rules]]
 namespace = "App\\Interface"
 permit = [
     "@layer:core",

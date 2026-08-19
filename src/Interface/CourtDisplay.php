@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Interface;
 
-use App\Domain\Score;
+use App\Domain\State\GameState;
 
 interface CourtDisplay
 {
-    public function display(Score $score): void;
+    public function display(GameState $state): void;
 }

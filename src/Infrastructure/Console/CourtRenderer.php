@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Console;
 
-use App\Domain\Score;
+use App\Domain\State\GameState;
 
 final readonly class CourtRenderer
 {
@@ -16,10 +16,10 @@ final readonly class CourtRenderer
         private Scoreboard $scoreboard,
     ) {}
 
-    public function render(Score $score): string
+    public function render(GameState $state): string
     {
         $margin = PlayerFigures::SIDE_WIDTH + self::GAP;
-        $lines = [$this->scoreboard->render($score->player1, $score->player2, CourtGrid::WIDTH, $margin)];
+        $lines = [$this->scoreboard->render((string) $state, CourtGrid::WIDTH, $margin)];
 
         for ($row = 0; $row < CourtGrid::HEIGHT; ++$row) {
             $lines[] = $this->buildRow($row);

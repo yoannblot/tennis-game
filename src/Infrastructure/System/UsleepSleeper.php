@@ -10,6 +10,6 @@ final readonly class UsleepSleeper implements Sleeper
 {
     public function sleep(): void
     {
-        usleep(200_000);
+        usleep(1_000_000);
     }
 }

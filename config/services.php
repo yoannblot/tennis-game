@@ -15,7 +15,7 @@ return function (ContainerConfigurator $container): void {
             ->autowire()
             ->autoconfigure();
 
-    $services->load('TennisGame\\', dirname(__DIR__).'/src/');
+    $services->load('App\\', dirname(__DIR__).'/src/');
 
     $services->alias(CourtDisplay::class, ConsoleCourtDisplay::class);
     $services->alias(Sleeper::class, UsleepSleeper::class);
