@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Interface\Console;
 
 use App\Domain\Game;
-use App\Domain\Player;
 use App\Domain\State\Win;
 use App\Interface\CourtDisplay;
+use App\Interface\PointWinnerPicker;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 
@@ -16,32 +16,19 @@ final readonly class StartCommand
 {
     public function __construct(
         private CourtDisplay $courtDisplay,
+        private PointWinnerPicker $pointWinnerPicker,
     ) {}
 
     public function __invoke(): int
     {
-        $points = [
-            Player::ONE,
-            Player::TWO,
-            Player::ONE,
-            Player::ONE,
-            Player::TWO,
-            Player::TWO,
-            Player::ONE,
-            Player::TWO,
-            Player::ONE,
-            Player::ONE,
-        ];
         $game = new Game();
+        $points = [];
 
-        for ($played = 1; $played <= count($points); ++$played) {
-            $state = $game->play(array_slice($points, offset: 0, length: $played));
+        do {
+            $points[] = $this->pointWinnerPicker->pick();
+            $state = $game->play($points);
             $this->courtDisplay->display($state);
-
-            if ($state instanceof Win) {
-                break;
-            }
-        }
+        } while (!$state instanceof Win);
 
         return Command::SUCCESS;
     }
