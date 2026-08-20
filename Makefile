@@ -1,10 +1,13 @@
-.PHONY: up down sh play tests
+.PHONY: up down sh play tests fmt-check lint guard analyze check
 
 export DOCKER_CLI_HINTS=false
 
+TTY := $(shell [ -t 0 ] || echo -T)
+EXEC := docker compose exec $(TTY) app
+
 up:
 	@docker compose up -d --build
-	@docker compose exec app composer install
+	@$(EXEC) composer install
 
 down:
 	@docker compose down
@@ -16,15 +19,29 @@ start:
 	@docker compose exec app php bin/console tennis-game:start
 
 tests:
-	@docker compose exec app php vendor/bin/phpunit tests
+	@$(EXEC) php vendor/bin/phpunit tests
 
 fix:
-	@docker compose exec app php vendor/bin/mago fmt
-	@docker compose exec app php vendor/bin/mago lint --fix
-	@docker compose exec app php vendor/bin/mago analyze --fix --potentially-unsafe --format-after-fix
+	@$(EXEC) php vendor/bin/mago fmt
+	@$(EXEC) php vendor/bin/mago lint --fix
+	@$(EXEC) php vendor/bin/mago analyze --fix --potentially-unsafe --format-after-fix
+
+fmt-check:
+	@$(EXEC) php vendor/bin/mago fmt --check
+
+lint:
+	@$(EXEC) php vendor/bin/mago lint
+
+guard:
+	@$(EXEC) php vendor/bin/mago guard
+
+analyze:
+	@$(EXEC) php vendor/bin/mago analyze
 
 check:
-	@docker compose exec app php vendor/bin/mago fmt --check
-	@docker compose exec app php vendor/bin/mago lint
-	@docker compose exec app php vendor/bin/mago guard
-	@docker compose exec app php vendor/bin/mago analyze
+	@fail=0; \
+	$(MAKE) --no-print-directory fmt-check || fail=1; \
+	$(MAKE) --no-print-directory lint      || fail=1; \
+	$(MAKE) --no-print-directory guard     || fail=1; \
+	$(MAKE) --no-print-directory analyze   || fail=1; \
+	exit $$fail

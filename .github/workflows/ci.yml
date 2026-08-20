@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build and start containers
+        id: up
+        run: make up
+
+      - name: Run tests
+        if: ${{ !cancelled() && steps.up.outcome == 'success' }}
+        run: make tests
+
+      - name: Check formatting
+        if: ${{ !cancelled() && steps.up.outcome == 'success' }}
+        run: make fmt-check
+
+      - name: Lint
+        if: ${{ !cancelled() && steps.up.outcome == 'success' }}
+        run: make lint
+
+      - name: Guard
+        if: ${{ !cancelled() && steps.up.outcome == 'success' }}
+        run: make guard
+
+      - name: Analyze
+        if: ${{ !cancelled() && steps.up.outcome == 'success' }}
+        run: make analyze
+
+      - name: Stop containers
+        if: always()
+        run: make down
